@@ -69,7 +69,7 @@ class CompteModel extends GenericModel
         return $compte;
     }
 
-    public function update(Compte $compte): ?bool
+    public function update(Compte $compte): bool
     {
         $compteFetch = $this->getByID($compte->getCompteId());
         if (!$compteFetch) return false;
@@ -83,20 +83,20 @@ class CompteModel extends GenericModel
             'clientId' => $compte->getClientId(),
         ];
         $res = $this->executeReq($query, $params);
-
+        $res = $res->fetch();
         if ($res) return true;
         return false;
     }
 
-    public function delete(Compte $compte): ?bool
+    public function delete(string $id): ?bool
     {
-        $compteFetch = $this->getByID($compte->getCompteId());
+        $compteFetch = $this->getByID($id);
 
         if (!$compteFetch) return false;
 
         $query = "DELETE FROM $this->table WHERE compteId = :compteId;";
         $params = [
-            'compteId' => $compte->getCompteId(),
+            'compteId' => $id,
         ];
         $res = $this->executeReq($query, $params);
 

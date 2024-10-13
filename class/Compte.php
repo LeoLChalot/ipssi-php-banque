@@ -15,7 +15,7 @@ class Compte
         private float $solde,
         private TypeDeCompte $typeDeCompte,
         private string $clientId
-    ){
+    ) {
         $this->compteId = $compteId == '' ? uniqid() : $compteId;
         $this->numeroCompte = $numeroCompte == '' ? 'FR' . random_int(68000000000000, 68999999999999) : $numeroCompte;
         $this->solde = $solde ?? 0;
@@ -79,9 +79,18 @@ class Compte
      * @param float $solde Nouveau solde du compte
      * @return void
      */
-    public function setSolde(float $solde): void
+    public function setSolde(float $montant): bool
     {
-        $this->solde = $solde;
+        $soldeActuel = $this->getSolde();
+
+        $this->solde += $montant;
+
+        if ($this->solde >= 0) {
+            return true;
+        } else {
+            $this->solde = $soldeActuel;
+            return false;
+        }
     }
 
     /**
@@ -101,9 +110,11 @@ class Compte
      * @param string $numeroCompte Nouveau num ro de compte
      * @return void
      */
-    public function setNumeroCompte(string $numeroCompte): void
+    public function setNumeroCompte(string $numeroCompte): bool
     {
-        $this->numeroCompte = $numeroCompte;
+        if ($this->numeroCompte == $numeroCompte) return false;
+        if (strlen($numeroCompte) > 5 && strlen($numeroCompte) < 15) $this->numeroCompte = $numeroCompte;
+        return false;
     }
 
     /**
@@ -145,4 +156,3 @@ class Compte
         ];
     }
 }
-?>

@@ -1,15 +1,15 @@
 <?php
 if (isset($_SESSION['client'])) {
     $client = unserialize($_SESSION['client']);
-} else{
+} else {
     $client = null;
     header('Location: ./index.php');
 }
-if(isset($selectedCompte)){
+if (isset($selectedCompte)) {
     if ($selectedCompte->getClientId() !== $client->getId()) {
-    $client = null;
-    header('Location: ./index.php');
-}
+        $client = null;
+        header('Location: ./index.php');
+    }
 }
 
 ?>
@@ -53,7 +53,9 @@ if(isset($selectedCompte)){
 
                 <div id="link-container">
                     <a class="btn add" href="?action=creation-compte&idClient=<?= $client->getId() ?>">Créer un compte</a>
-                    <a class="btn delete" href="?action=supprimer-compte&idCompte=<?= $selectedCompte->getCompteId() ?>">Supprimer le compte</a>
+                    <?php if (isset($selectedCompte)): ?>
+                        <a class="btn delete" href="?action=supprimer-compte&idCompte=<?= $selectedCompte->getCompteId() ?>&idClient=<?= $client->getId() ?>">Supprimer le compte</a>
+                    <?php endif ?>
                 </div>
 
             </div>
@@ -69,6 +71,7 @@ if(isset($selectedCompte)){
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Déposer">
+                    <?php if (isset($errorDepot)) echo $errorDepot; ?>
                 </div>
             </form>
             <form id="form-retrait" action="" method="post">
@@ -80,6 +83,7 @@ if(isset($selectedCompte)){
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Retirer">
+                    <?php if (isset($errorRetrait)) echo $errorRetrait; ?>
                 </div>
             </form>
             <form id="form-virement" action="" method="post">
@@ -87,15 +91,20 @@ if(isset($selectedCompte)){
                     <label for="virement">
                         <h3>Virement</h3>
                     </label>
-                    <input type="number" name="virement" id="virement" min="0" step="0.01" placeholder="Montant" required>
-                </div>
-                <div class="form-group">
-                    <select name="idCompte" id="idCompte">
+                    <select name="idCompteVirement" id="">
                         <option value="">--- Choisissez un compte ---</option>
+                        <?php foreach ($comptes as $compte): ?>
+                            <option value=<?= $compte['compteId'] ?>><?= $compte['compteId'] ?> - <?= $compte['typeDeCompte'] ?> - <?= $compte['solde'] ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="form-group">
+                    <input type="number" name="virement" id="virement" min="0" step="0.01" placeholder="Montant" required>
+                </div>
+
+                <div class="form-group">
                     <input type="submit" value="Virement">
+                    <?php if (isset($errorVirement)) echo $errorVirement; ?>
                 </div>
             </form>
 
