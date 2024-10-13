@@ -52,7 +52,20 @@ class CompteModel extends GenericModel
 
         if (!$compte) return null;
 
-        $compte = new Compte($compte['compteId'], $compte['numeroCompte'], $compte['solde'], $compte['typeDeCompte'], $compte['clientId']);
+
+        switch ($compte['typeDeCompte']) {
+            case 'Courant':
+                $compte = new Compte($compte['compteId'], $compte['numeroCompte'], $compte['solde'], TypeDeCompte::COURANT, $compte['clientId']);
+                break;
+            case 'Epargne':
+                $compte = new Compte($compte['compteId'], $compte['numeroCompte'], $compte['solde'], TypeDeCompte::EPARGNE, $compte['clientId']);
+                break;
+            case 'Entreprise':
+                $compte = new Compte($compte['compteId'], $compte['numeroCompte'], $compte['solde'], TypeDeCompte::ENTREPRISE, $compte['clientId']);
+                break;
+            default:
+                break;
+        }
         return $compte;
     }
 
@@ -91,11 +104,11 @@ class CompteModel extends GenericModel
         return false;
     }
 
-    public function getByClientID(string $id): ?Compte
+    public function getByClientID(string $id): ?array
     {
-        $query = "SELECT * FROM $this->table WHERE clientId = :id;";
+        $query = "SELECT * FROM $this->table WHERE clientId = :clientId";
         $params = [
-            'id' => $id
+            'clientId' => $id
         ];
         $result = $this->executeReq($query, $params);
         $comptes = $result->fetchAll();
@@ -103,7 +116,23 @@ class CompteModel extends GenericModel
         if (!$comptes) return null;
 
         foreach ($comptes as $key => $compte) {
-            $comptes[$key] = new Compte($compte['compteId'], $compte['numeroCompte'], $compte['solde'], $compte['typeDeCompte'], $compte['clientId']);
+            switch ($compte['typeDeCompte']) {
+                case 'COURANT':
+                    $type = TypeDeCompte::COURANT;
+                    $comptes[$key] = new Compte($compte['compteId'], $compte['numeroCompte'], $compte['solde'], $type, $compte['clientId']);
+                    break;
+                case 'EPARGNE':
+                    $type = TypeDeCompte::EPARGNE;
+                    $comptes[$key] = new Compte($compte['compteId'], $compte['numeroCompte'], $compte['solde'], $type, $compte['clientId']);
+                    break;
+                case 'ENTREPRISE':
+                    $type = TypeDeCompte::ENTREPRISE;
+                    $comptes[$key] = new Compte($compte['compteId'], $compte['numeroCompte'], $compte['solde'], $type, $compte['clientId']);
+                    break;
+                default:
+                    break;
+            }
+            // $comptes[$key] = new Compte($compte['compteId'], $compte['numeroCompte'], $compte['solde'], $type, $compte['clientId']);
         }
         return $comptes;
     }

@@ -2,6 +2,7 @@
 include('class/Utilisateur.php');
 include('class/Admin.php');
 include('class/Client.php');
+include('class/Compte.php');
 include('model/GenericModel.php');
 include('model/CompteModel.php');
 include('model/ClientModel.php');

@@ -17,7 +17,7 @@ class Compte
         private string $clientId
     ){
         $this->compteId = $compteId == '' ? uniqid() : $compteId;
-        $this->numeroCompte = $numeroCompte ?? 'FR' . random_int(68000000000000, 68999999999999);
+        $this->numeroCompte = $numeroCompte == '' ? 'FR' . random_int(68000000000000, 68999999999999) : $numeroCompte;
         $this->solde = $solde ?? 0;
         $this->typeDeCompte = $typeDeCompte ?? TypeDeCompte::COURANT;
         $this->clientId = $clientId;
@@ -56,11 +56,11 @@ class Compte
     /**
      * Renvoie le type du compte
      * 
-     * @return TypeDeCompte
+     * @return string
      */
-    public function getTypeDeCompte(): TypeDeCompte
+    public function getTypeDeCompte(): string
     {
-        return $this->typeDeCompte;
+        return $this->typeDeCompte->name;
     }
 
     /**

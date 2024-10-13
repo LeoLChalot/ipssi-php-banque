@@ -7,7 +7,7 @@
                     <select name="idCompte" id="">
                         <option value="">--- Choisissez un compte ---</option>
                         <?php foreach ($comptes as $compte): ?>
-                            <option value="<?= $compte->getId() ?>"><?= $compte->getId() ?></option>
+                            <option value=<?= $compte['idCompte'] ?>><?= $compte['idCompte'] ?> - <?= $compte['typeDeCompte'] ?> - <?= $compte['solde'] ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -15,10 +15,10 @@
                     <input type="submit" value="Selectionner">
                 </div>
             </form>
-            <p><b>Solde :</b> <?= $compte->getSolde() ?></p>
+            <!-- <p><b>Solde :</b> <?= $compte->getSolde() ?></p>
             <p><b>Type de compte :</b> <?= $compte->getType() ?></p>
             <p><b>Client :</b> <?= $compte->getClient() ?></p>
-            <p><b>Identifiant :</b> <?= $compte->getId() ?></p>
+            <p><b>Identifiant :</b> <?= $compte->getId() ?></p> -->
         </div>
         <!-- <div id="link-container">
         <a href="?action=depot">Dépôt</a>

@@ -3,9 +3,9 @@
     <div class="form-group">
         <select name="type" id="type">
             <option value="">--- Choisissez un type de compte ---</option>
-            <option value="Epargne">Epargne</option>
-            <option value="Courant">Courant</option>
-            <option value="Entreprise">Entreprise</option>
+            <option value="EPARGNE">Epargne</option>
+            <option value="COURANT">Courant</option>
+            <option value="ENTREPRISE">Entreprise</option>
         </select>
     </div>
     <div class="form-group">
