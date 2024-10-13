@@ -28,25 +28,25 @@
             <p>Le mot de passe doit contenir au moins :</p>
             <ul>
                 <li>
-                    <p><em>8 caractères</em></p>
+                    <p id="caracteres"><em>8 caractères</em></p>
                 </li>
                 <li>
-                    <p><em>une majuscule</em></p>
+                    <p id="majuscules"><em>une majuscule</em></p>
                 </li>
                 <li>
-                    <p><em>une minuscule</em></p>
+                    <p id="minuscules"><em>une minuscule</em></p>
                 </li>
                 <li>
-                    <p><em>un chiffre</em></p>
+                    <p id="chiffres"><em>un chiffre</em></p>
                 </li>
                 <li>
-                    <p><em>un caractère spécial</em></p>
+                    <p id="special"><em>un caractère spécial</em></p>
                 </li>
             </ul>
         </small>
         <p id="mdp-error"></p>
     </div>
     <div class="form-group">
-        <input type="submit" value="S'inscrire">
+        <button id="submit" type="submit" value="S'inscrire">S'inscrire</button>
     </div>
 </form>
