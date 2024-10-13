@@ -1,9 +1,18 @@
+<?php
+if (isset($_SESSION['client'])) {
+    $client = unserialize($_SESSION['client']);
+} else {
+    $client = null;
+    header('Location: ./index.php');
+}
+?>
 <div id="container-compte">
     <?php
     include('./vue/include/compteAside.php');
     ?>
 
     <section>
+        <?php if (isset($comptes)): ?>
         <form id="form-depot" action="" method="post">
             <div class="form-group">
                 <label for="depot"><h3>Dépôt</h3></label>
@@ -36,4 +45,9 @@
                 <input type="submit" value="Virement">
             </div>
         </form>
+        <?php else: ?>  
+            <p>Vous n'avez pas encore de compte.</p>
+            <a href="?action=creation-compte">Créer un compte</a>
+        <?php endif; ?>
+    </section>
 </div>

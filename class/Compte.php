@@ -16,8 +16,8 @@ class Compte
         private TypeDeCompte $typeDeCompte,
         private string $clientId
     ){
-        $this->compteId = $compteId ?? uniqid();
-        $this->numeroCompte = $numeroCompte ?? uniqid();
+        $this->compteId = $compteId == '' ? uniqid() : $compteId;
+        $this->numeroCompte = $numeroCompte ?? 'FR' . random_int(68000000000000, 68999999999999);
         $this->solde = $solde ?? 0;
         $this->typeDeCompte = $typeDeCompte ?? TypeDeCompte::COURANT;
         $this->clientId = $clientId;
@@ -129,21 +129,10 @@ class Compte
     }
 
     /**
-     * Retourne l'identifiant unique du compte
-     * 
-     * @return string Identifiant unique du compte
-     */
-    public function __toString(): string
-    {
-        return $this->compteId;
-    }
-
-    /**
      * Retourne un tableau associatif contenant des informations sur le compte
      * 
      * @return array Tableau associatif contenant les informations sur le compte
      * 
-     * @see https://www.php.net/manual/en/language.oop5.magic.php#object.debuginfo
      */
     public function __debugInfo(): array
     {
@@ -156,6 +145,4 @@ class Compte
         ];
     }
 }
-
-
 ?>

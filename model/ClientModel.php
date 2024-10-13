@@ -5,11 +5,14 @@ class ClientModel extends GenericModel
 
     public function ajouter(Client $client)
     {
+        // Vérifier que l'email n'existe pas
+        $fetchedClient = $this->getByEmail($client->getEmail());
 
-        $query =
-            "INSERT INTO client 
-        (clientId, nom, prenom, telephone, email, mdp) 
-        VALUES (:clientId, :nom, :prenom, :telephone, :email, :mdp)";
+        if ($fetchedClient) {
+            return null;
+        }
+
+        $query = "INSERT INTO client (clientId, nom, prenom, telephone, email, mdp) VALUES (:clientId, :nom, :prenom, :telephone, :email, :mdp)";
         $params = [
             'clientId' => $client->getId(),
             'nom' => $client->getNom(),
@@ -22,16 +25,20 @@ class ClientModel extends GenericModel
         $this->executeReq($query, $params);
     }
 
-    public function connecter(string $email, string $mdp): Client
+    public function connecter(string $email, string $mdp): ?Client
     {
-        $query = "SELECT * FROM client WHERE email = :email AND mdp = :mdp";
-        $params = [
-            'email' => $email,
-            'mdp' => $mdp
-        ];
-        $result = $this->executeReq($query, $params);
-        $client = $result->fetch();
-        return $client;
+
+        echo "<script>alert('".$email. " " . $mdp."');</script>";
+        // Vérifier que l'email existe
+        $client = $this->getByEmail($email);
+        // Vérifier le contenu de $client
+        if (!$client) return null;
+
+        // Vérifier que le mot de passe est correct
+        if($client->verifierMotDePasse($mdp)) {
+            return $client;
+        }
+        return null;
     }
 
     public function getAll(): array
@@ -45,7 +52,7 @@ class ClientModel extends GenericModel
         return $clients;
     }
 
-    public function getByEmail(string $email): Client
+    public function getByEmail(string $email): ?Client
     {
         $query = "SELECT * FROM client WHERE email = :email";
         $params = [
@@ -53,11 +60,15 @@ class ClientModel extends GenericModel
         ];
         $result = $this->executeReq($query, $params);
         $client = $result->fetch();
-        $client = new Client($client['clientId'], $client['nom'], $client['prenom'], $client['telephone'], $client['email'], $client['mdp']);
+
+        if (!$client) return null;
+
+        $client = new Client($client['clientId'], $client['email'], $client['mdp'], $client['nom'], $client['prenom'], $client['telephone']);
+        echo "<script>alert('".$client->getMdp()."');</script>";
         return $client;
     }
 
-    public function getByID(string $id): Client
+    public function getByID(string $id): ?Client
     {
         $query = "SELECT * FROM client WHERE clientId = :id";
         $params = [

@@ -1,10 +1,10 @@
 <header>
     <nav>
-        <a href="#">Accueil</a>
-        <a href="?action=compte">Mon compte</a>
+        <a href="./index.php">Accueil</a>
+        <a href="?action=mes-comptes">Mon compte</a>
 
         <a href="?action=connexion">Se connecter</a>
         <a href="?action=inscription">S'enregistrer</a>
-        <a href="#">Déconnexion</a>
+        <a href="?action=deconnexion">Déconnexion</a>
     </nav>
 </header>

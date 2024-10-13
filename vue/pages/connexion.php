@@ -8,6 +8,6 @@
         <input type="password" name="mdp" id="mdp" placeholder="Mot de passe" required>
     </div>
     <div class="form-group">
-        <input type="submit" value="S'inscrire">
+        <input type="submit" value="Se connecter">
     </div>
 </form>
